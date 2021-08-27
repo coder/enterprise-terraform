@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../terraform//namespace"
+  source = "github.com/cdr/enterprise-terraform//modules/namespace"
 }
 
 include {

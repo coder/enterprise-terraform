@@ -35,10 +35,15 @@ resource "google_container_node_pool" "coder_node_pool" {
   node_count = var.gke_cluster_node_count
 
   node_config {
-    preemptible  = var.gke_cluster_preemptible
-    machine_type = var.gke_cluster_machine_type
+    preemptible  = var.cluster_preemptible
+    machine_type = var.cluster_machine_type
+    image_type   = "UBUNTU_CONTAINERD"
+    disk_size_gb = 100
+    disk_type    = "pd-ssd"
+    metadata = {
+      disable-legacy-endpoints = true
+    }
   }
-
 }
 
 variable "google_project_id" {}

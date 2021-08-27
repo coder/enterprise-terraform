@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../terraform//helm"
+  source = "github.com/cdr/enterprise-terraform//modules/helm"
 }
 
 include {

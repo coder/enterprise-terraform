@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../terraform//cloudsql"
+  source = "github.com/cdr/enterprise-terraform//modules/gcp/cloudsql"
 }
 
 include {

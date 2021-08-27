@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../terraform//gke"
+  source = "github.com/cdr/enterprise-terraform//modules/gcp/gke"
 }
 
 include {
