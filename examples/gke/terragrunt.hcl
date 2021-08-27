@@ -51,11 +51,12 @@ inputs = {
   # The chart name. This shouldn't need to be changed.
   helm_chart = "coder"
   # The version of Coder to deploy.
-  helm_chart_version = "1.21.0"
-  # The password used to login to the admin user.:w
+  helm_chart_version = "1.22.0"
+  # The password used to login to the admin user.
   admin_password = ""
 
-  # The Cloud DNS zone which your hostname will be created in.
+  # The Cloud DNS zone which your hostname will be created in. It must be
+  # created outside of this Terraform module.
   dns_zone_name = ""
   # The hostname for accessing Coder.
   hostname = "my-deployment.coder.com"
