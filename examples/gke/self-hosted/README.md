@@ -56,7 +56,8 @@ To tear down a Coder deployment, run:
 terragrunt run-all apply
 ```
 
-### Getting Help
+## Support
 
-If you run into issues, please feel free to reach out through GitHub issues or
-our support email, `support@coder.com`.
+If you experience issues, have feedback, or want to ask a question, open an
+issue or pull request in this repository. Feel free to [contact us
+instead](https://coder.com/contact).
