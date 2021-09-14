@@ -83,6 +83,18 @@ resource "google_sql_database" "database" {
   instance = google_sql_database_instance.master.name
 }
 
+# This causes a 15s sleep before the user and database get deleted. Cloud SQL
+# will somtimes error if we delete them too quickly after the Cloud SQL Proxy
+# pod has been killed, thus killing all connections.
+resource "time_sleep"  "sleep_before_delete" {
+  depends_on = [
+    google_sql_user.coder_user,
+    google_sql_database.database,
+  ]
+
+  destroy_duration = "15s"
+}
+
 variable "google_project_id" {}
 variable "kubernetes_namespace" {}
 variable "gke_cluster_name" {}

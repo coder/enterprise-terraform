@@ -16,6 +16,8 @@ locals {
   cloud_sql_proxy_img = "gcr.io/cloudsql-docker/gce-proxy:1.23.1"
   cloud_sql_proxy_deployment_name = "cloud-sql-proxy"
   cloud_sql_proxy_connection_string = "${var.google_project_id}:${var.cloud_sql_instance_region}:${var.cloud_sql_instance_name}"
+
+  cloud_sql_proxy_network_policy_name = "cloud-sql-proxy-network-policy"
 }
 
 resource "kubernetes_deployment" "cloud_sql_proxy" {
@@ -64,6 +66,9 @@ resource "kubernetes_deployment" "cloud_sql_proxy" {
 
   depends_on = [
     google_sql_database_instance.master,
+    google_sql_user.coder_user,
+    google_sql_database.database,
+    time_sleep.sleep_before_delete,
   ]
 }
 
@@ -87,6 +92,41 @@ resource "kubernetes_service" "cloud_sql_proxy_service" {
   depends_on = [
     kubernetes_deployment.cloud_sql_proxy,
   ]
+}
+
+resource "kubernetes_network_policy" "cloud_sql_proxy_network_policy" {
+  metadata {
+    name      = local.cloud_sql_proxy_network_policy_name
+    namespace = var.kubernetes_namespace
+  }
+
+  spec {
+    pod_selector {
+      match_labels = {
+        app = local.cloud_sql_proxy_deployment_name
+      }
+    }
+
+    ingress {
+      ports {
+        port     = "5432"
+        protocol = "TCP"
+      }
+
+      # Only allow ingress traffic from the coderd pod.
+      from {
+        pod_selector {
+          match_labels = {
+            app = "coderd"
+          }
+        }
+      }
+    }
+
+    egress {} # single empty rule to allow all egress traffic
+
+    policy_types = ["Ingress", "Egress"]
+  }
 }
 
 output "sql_host" {

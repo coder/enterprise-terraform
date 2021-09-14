@@ -38,3 +38,5 @@ terraform.rc
 
 # Ignore terragrunt cache
 .terragrunt-cache
+
+testing/

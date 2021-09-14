@@ -23,6 +23,29 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
+  networking_mode = "VPC_NATIVE"
+  ip_allocation_policy {}
+  # Enables GKE Dataplane v2. This forces Network Policy to be enabled.
+  datapath_provider = "ADVANCED_DATAPATH"
+
+  release_channel {
+    channel = "REGULAR"
+  }
+
+  addons_config {
+    horizontal_pod_autoscaling {
+      disabled = false
+    }
+
+    # TODO: options for enabling istio
+    # istio_config {
+    #   disabled = false
+    #   auth     = "AUTH_NONE"
+    # }
+  }
+
+  # Enables GKE Workload Identity. This is used for Cloud SQL Proxy
+  # authentication.
   workload_identity_config {
     identity_namespace = "${var.google_project_id}.svc.id.goog"
   }
@@ -35,8 +58,8 @@ resource "google_container_node_pool" "coder_node_pool" {
   node_count = var.gke_cluster_node_count
 
   node_config {
-    preemptible  = var.cluster_preemptible
-    machine_type = var.cluster_machine_type
+    preemptible  = var.gke_cluster_preemptible
+    machine_type = var.gke_cluster_machine_type
     image_type   = "UBUNTU_CONTAINERD"
     disk_size_gb = 100
     disk_type    = "pd-ssd"
