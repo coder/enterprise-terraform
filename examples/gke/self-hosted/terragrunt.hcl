@@ -22,6 +22,8 @@ inputs = {
   # The GCP project all resources will be created in.
   google_project_id = "coder-dev-1"
 
+  # Cloud SQL options
+
   # The name of the Cloud SQL instance that will be created.
   cloud_sql_instance_name = ""
   # The size of the created Cloud SQL instance.
@@ -34,18 +36,62 @@ inputs = {
   # you would like to delete your instance, set this to false.
   cloud_sql_deletion_prevention = true
 
+  #
+  # GKE options
+  #
+
   # The name of the GKE cluster that will be created.
   gke_cluster_name = ""
-  gke_cluster_region = local.region 
-  gke_cluster_zone = local.zone 
+  gke_cluster_region = local.region
+  gke_cluster_zone = local.zone
   # The machine type of the nodes.
   gke_cluster_machine_type = "e2-standard-4"
   # Whether the cluster should be preemptible. For test deployments, this can
   # help save costs during evaluation, but nodes can be recreated at any time.
   gke_cluster_preemptible = false
+
+  #
+  # GKE Autoscaling options
+  #
+  # One of two options must be enabled:
+  #
+  # 1.  gke_cluster_node_count
+  #
+  #     Disables autoscaling and manually controls the
+  #     node count.
+  #
+  # 2.  gke_cluster_initial_node_count + gke_cluster_autoscaling
+  #
+  #     Enables autoscaling. The cluster starts with
+  #     gke_cluster_initial_node_count nodes.
+  #
+  # Only 1 or 2 should be enabled at once. If both are enabled, the cluster
+  # will reset to gke_cluster_node_count nodes every time the Terraform is
+  # applied.
+
+  # For clusters without autoscaling, use gke_cluster_node_count to manually
+  # specify the number of nodes in the cluster.
+  # gke_cluster_node_count = 2
+
+  # The initial number of nodes the cluster will be created with. Changing this
+  # value after cluster creation has no effect. It should be used in
+  # conjunction with gke_cluster_autoscaling to control the number of nodes
+  # before autoscaling takes over.
+  # gke_cluster_initial_node_count = 2
+  #
+  # Controls the node limits for GKE autoscaling. Should be used in conjunction
+  # with gke_cluster_initial_node_count.
+  # gke_cluster_autoscaling = {
+  #   min_node_count = 2
+  #   max_node_count = 8
+  # }
+
+  #
+  # Helm options
+  #
+
   # The kubernetes namespace Coder will be deployed in.
   kubernetes_namespace = ""
-
   # The release name of the helm chart. This shouldn't need to be changed.
   helm_release_name = "coder"
   # The chart name. This shouldn't need to be changed.

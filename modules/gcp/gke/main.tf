@@ -56,6 +56,28 @@ resource "google_container_node_pool" "coder_node_pool" {
   location   = google_container_cluster.primary.location
   cluster    = google_container_cluster.primary.name
   node_count = var.gke_cluster_node_count
+  initial_node_count = var.gke_cluster_initial_node_count
+
+  # Once the cluster is created with an initial node count of 2, ignore all
+  # subsequent changes. We want the autoscaler to control it.
+  lifecycle {
+    ignore_changes = [
+      initial_node_count
+    ]
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
+
+  dynamic "autoscaling" {
+    for_each = var.gke_cluster_autoscaling != null ? [var.gke_cluster_autoscaling] : []
+    content {
+      min_node_count = autoscaling.value.min_node_count
+      max_node_count = autoscaling.value.max_node_count
+    }
+  }
 
   node_config {
     preemptible  = var.gke_cluster_preemptible
@@ -74,11 +96,26 @@ variable "gke_cluster_name" {}
 variable "gke_cluster_region" {}
 variable "gke_cluster_zone" {}
 variable "gke_cluster_machine_type" {}
+
 variable "gke_cluster_node_count" {
   type = number
-  default = 1
+  default = null
 }
+
+variable "gke_cluster_initial_node_count" {
+  type = number
+  default = null
+}
+
 variable "gke_cluster_preemptible" {
   type = bool
   default = false
+}
+
+variable "gke_cluster_autoscaling" {
+  type = object({
+    min_node_count = number
+    max_node_count = number
+  })
+  default = null
 }

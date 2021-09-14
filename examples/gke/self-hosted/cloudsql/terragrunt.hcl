@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/cdr/enterprise-terraform//modules/gcp/cloudsql"
+  source = "github.com/cdr/enterprise-terraform//modules/gcp/cloudsql?ref=v0.1.0"
 }
 
 include {
