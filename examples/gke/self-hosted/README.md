@@ -53,7 +53,7 @@ can login with the user `admin` and the provided password.
 To tear down a Coder deployment, run:
 
 ```bash
-terragrunt run-all apply
+terragrunt run-all destroy
 ```
 
 ## Support
