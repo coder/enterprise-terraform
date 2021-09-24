@@ -70,7 +70,7 @@ resource "helm_release" "coder" {
   chart      = var.helm_chart
   version    = var.helm_chart_version
 
-  timeout = 120
+  timeout = 300
 
   values = var.helm_values
 
@@ -137,6 +137,11 @@ resource "helm_release" "coder" {
   set {
     name  = "coderd.tls.hostSecretName"
     value = "${var.tls_secret_name}"
+  }
+
+  set {
+    name  = "coderd.devurlsHost"
+    value = "*.${var.hostname}"
   }
 
   namespace = var.kubernetes_namespace

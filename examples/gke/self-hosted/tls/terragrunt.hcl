@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/cdr/enterprise-terraform//modules/gcp/tls"
+  source = "github.com/cdr/enterprise-terraform//modules/gcp/tls?ref=v0.2.0"
 }
 
 include {
