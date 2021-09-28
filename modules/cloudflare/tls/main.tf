@@ -55,6 +55,14 @@ resource "cloudflare_record" "hostname" {
   ttl     = 3600
 }
 
+resource "cloudflare_record" "devurl_hostname" {
+  zone_id = var.cloudflare_zone_id
+  name    = "*.${var.hostname}"
+  value   = var.hostname
+  type    = "CNAME"
+  ttl     = 3600
+}
+
 locals {
   kubernetes_namespace = "cert-manager"
   issuer_name = "coder-issuer"

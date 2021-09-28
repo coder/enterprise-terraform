@@ -22,6 +22,23 @@ inputs = {
   # The GCP project all resources will be created in.
   google_project_id = "coder-dev-1"
 
+  # GCP Services options
+
+  # Enables specific GCP services that are disabled by default. To get a full
+  # list, see: `gcloud services list --available`.
+  google_services = [
+    "sqladmin.googleapis.com", # Necessary, do not remove!
+  ]
+  # If true, services that are enabled and which depend on this service should
+  # also be disabled when this service is destroyed. If false or unset, an
+  # error will be generated if any enabled services depend on this service when
+  # destroying it.
+  google_services_disable_dependent_services = false
+  # If true, disable the service when the terraform resource is destroyed. May
+  # be useful in the event that a project is long-lived but the infrastructure
+  # running in that project changes frequently.
+  google_services_disable_disable_on_destroy = false
+
   # Cloud SQL options
 
   # The name of the Cloud SQL instance that will be created.
