@@ -12,7 +12,7 @@ provider "google" {
 }
 
 resource "google_project_service" "services" {
-  for_each = toset(var.gcp_services)
+  for_each = toset(var.google_services)
   project = var.google_project_id
   service = each.key
 
