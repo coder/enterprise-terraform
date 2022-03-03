@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">= 3.77"
+      version = ">= 4.12"
     }
   }
 }
@@ -47,7 +47,7 @@ resource "google_container_cluster" "primary" {
   # Enables GKE Workload Identity. This is used for Cloud SQL Proxy
   # authentication.
   workload_identity_config {
-    identity_namespace = "${var.google_project_id}.svc.id.goog"
+    workload_pool = "${var.google_project_id}.svc.id.goog"
   }
 }
 

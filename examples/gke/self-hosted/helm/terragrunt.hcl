@@ -14,7 +14,7 @@ dependency "gke" {
 dependency "cloud_sql" {
   config_path = "../cloudsql"
 
-  mock_outputs_allowed_terraform_commands = ["validate", "plan", "destroy"]
+  mock_outputs_allowed_terraform_commands = ["validate", "plan", "destroy", "init"]
   mock_outputs = {
     sql_password = "hunter2"
     sql_host = "sql.coder.com"
@@ -31,7 +31,7 @@ dependency "ns" {
 dependency "tls" {
   config_path = "../tls"
 
-  mock_outputs_allowed_terraform_commands = ["validate", "plan", "destroy"]
+  mock_outputs_allowed_terraform_commands = ["validate", "plan", "destroy", "init"]
   mock_outputs = {
     address = "1.1.1.1"
     tls_secret_name = "coder-certs"
