@@ -2,22 +2,22 @@ terraform {
   required_providers {
     cloudflare = {
       source = "cloudflare/cloudflare"
-      version = ">= 2.26.1"
+      version = "~> 3.9"
     }
 
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.3"
+      version = "~> 2.8"
     }
 
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.2"
+      version = "~> 2.4"
     }
 
     kubectl = {
       source  = "gavinbunney/kubectl"
-      version = ">= 1.11.3"
+      version = "~> 1.13"
     }
   }
 }
