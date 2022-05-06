@@ -1,5 +1,5 @@
 terraform {
-  source = "github.com/cdr/enterprise-terraform//modules/gcp/gke/cluster?ref=v0.3.0"
+  source = "github.com/cdr/enterprise-terraform//modules/gcp/gke/cluster?ref=v0.4.0"
 }
 
 include {
